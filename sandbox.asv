@@ -1,0 +1,8 @@
+% Used to test functions or any other ideas.
+% Please delete or uncomment used codes
+
+% test related to BDCL cell
+BDCL_cell = CellBDCL(3, 5, 11:20);
+disp([BDCL_cell.Loc_x, BDCL_cell.Loc_y])
+
+% test related to 

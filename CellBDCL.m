@@ -34,5 +34,12 @@ classdef CellBDCL < CellBase
         end
         % TODO: complete other operations related to Cell.
         
+        function call_start(obj)
+            % TODO:
+        end
+
+        function call_end(obj)
+            % TODO:
+        end
     end
 end

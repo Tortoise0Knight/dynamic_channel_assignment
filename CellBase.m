@@ -17,7 +17,7 @@ classdef (Abstract) CellBase
                 obj.Loc_y = loc_y;
             elseif nargin == 3
                 obj.Loc_x = loc_x;
-                obj.Loc_y = loc_x;
+                obj.Loc_y = loc_y;
                 obj.SC = sc;
             else 
                 error(['Amount of parameters given for CellBase() is ' ...
