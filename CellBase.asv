@@ -10,11 +10,12 @@ classdef (Abstract) CellBase
     
     methods
         % Constructor method
-        % 初始化CellBase时，可以空初始化, 提供x,y坐标，或提供全部3个参数
+        % 初始化CellBase时，可以提供x,y坐标，或提供全部3个参数
         function obj = CellBase(loc_x, loc_y, sc)
             if nargin == 0
-                % allowing empty initialization
-            elseif nargin == 2
+                % 
+            end
+            if nargin == 2
                 obj.Loc_x = loc_x;
                 obj.Loc_y = loc_y;
             elseif nargin == 3

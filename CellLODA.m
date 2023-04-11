@@ -8,9 +8,11 @@ classdef CellLODA < CellBase
     
     methods 
         % Constructor method
-        % 初始化CellLODA时，可以提供x,y坐标，或提供全部3个参数
+        % 初始化CellLODA时，可以空初始化, 提供x,y坐标，或提供全部3个参数
         function obj = CellLODA(loc_x, loc_y, sc)
-            if nargin == 2
+            if nargin == 0
+                super_args = {};
+            elseif nargin == 2
                 super_args{1} = loc_x;
                 super_args{2} = loc_y;
             elseif nargin == 3
@@ -26,7 +28,7 @@ classdef CellLODA < CellBase
         end
         % TODO: complete other operations related to Cell.
 
-        function call_start(obj)
+        function call_arrival(obj)
             % TODO:
         end
 

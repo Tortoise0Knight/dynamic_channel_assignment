@@ -12,9 +12,11 @@ classdef CellBDCL < CellBase
     
     methods 
         % Constructor method
-        % 初始化CellBDCL时，可以提供x,y坐标及FC，或提供全部6个参数
+        % 初始化CellBDCL时，可以空初始化, 提供x,y坐标及FC，或提供全部6个参数
         function obj = CellBDCL(loc_x, loc_y, fc, sc, lc, bc)
-            if nargin == 3
+            if nargin == 0
+                super_args = {};
+            elseif nargin == 3
                 super_args{1} = loc_x;
                 super_args{2} = loc_y;
             elseif nargin == 6
@@ -27,8 +29,9 @@ classdef CellBDCL < CellBase
             end
 
             obj@CellBase(super_args{:});
-            
-            obj.FC = fc;
+            if nargin ~= 0
+                obj.FC = fc;
+            end
             if nargin == 6
                 obj.LC = lc;
                 obj.BC = bc;
@@ -36,7 +39,7 @@ classdef CellBDCL < CellBase
         end
         % TODO: complete other operations related to Cell.
         
-        function call_start(obj)
+        function call_arrival(obj)
             % TODO:
         end
 

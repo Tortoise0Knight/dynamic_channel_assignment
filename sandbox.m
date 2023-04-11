@@ -1,9 +1,15 @@
 % Used to test functions or any other ideas.
 % Please delete or uncomment used codes
+NB = 0;
+NC = 0;
 
 % test related to FA cell
     FA_cell = CellFA(3, 5, 11:20);
     disp([FA_cell.Loc_x, FA_cell.Loc_y])
+    [FA_cell, NB, NC, channel1] = FA_cell.call_arrival(NB, NC);
+    [FA_cell, NB, NC, channel2] = FA_cell.call_arrival(NB, NC);
+    [FA_cell, NB, NC, channel3] = FA_cell.call_arrival(NB, NC);
+    FA_cell = FA_cell.call_end(channel1);
 
 % test related to LODA cell
     LODA_cell = CellLODA(3, 5, 11:20);
