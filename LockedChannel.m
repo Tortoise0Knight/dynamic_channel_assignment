@@ -2,7 +2,7 @@ classdef LockedChannel
 
     properties
         channel_order (1,1) int16
-        locked_directions (1,1) int16
+        locked_directions (1,:) int16
         responsible_cell_location (1,2) int16
     end
     

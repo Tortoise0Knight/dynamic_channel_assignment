@@ -21,6 +21,7 @@ classdef CellBDCL < CellBase
                 super_args{1} = loc_x;
                 super_args{2} = loc_y;
                 super_args{3} = sc;
+                super_args{4} = bc;
             else
                 error(['Amount of parameters given for CellBDCL() is ' ...
                     'incorrect, only 3 or 6 are acceptable'])
@@ -29,9 +30,8 @@ classdef CellBDCL < CellBase
             obj@CellBase(super_args{:});
             
             obj.FC = fc;
-            if nargin == 6
+            if nargin == 5
                 obj.LC = lc;
-                obj.BC = bc;
             end
         end
         % TODO: complete other operations related to Cell.
