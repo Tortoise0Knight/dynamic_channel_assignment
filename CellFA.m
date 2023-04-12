@@ -36,6 +36,7 @@ classdef CellFA < CellBase
             NC = NC + 1;
             if isempty(obj.FC)
                 NB = NB + 1;
+                channel = -1; % an invalid channel indicates block
             else
                 channel = obj.FC(end);
                 obj.SC = [obj.SC channel];
