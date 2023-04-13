@@ -83,7 +83,9 @@
 %     call_arrivals_clip=call_arrivals(:,:,1:100);
 %     test1 = call_arrivals(:, :, 1);
 
-plot(blocking_rate_time_list_FA, blocking_rate_list_FA)
+foo_a = reshape(1:24, [2,3,4]);
+foo_c = reshape(10:15, [2,3]);
+foo_b = foo_a < foo_c;
 
 
 

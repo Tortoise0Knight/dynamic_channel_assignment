@@ -1,3 +1,13 @@
+% the matrix that specify the original traffic load for each cell
+traffic_load_map = ...
+    [80 60 140 100 80 160 60; 
+    100 60 120 60 40 100 120; 
+    100 120 40 20 140 40 180;
+    160 20 100 200 60 60 40;
+    80 40 40 80 60 100 160;
+    60 100 140 100 20 160 80;
+    120 60 60 160 120 120 80];
+
 % the matrix that specify the channel group No. for each cell
 channel_group_map = ...
     [3 7 2 5 4 6 1; 
@@ -15,26 +25,31 @@ channel_names = permute(channel_names, [2 1]);
 
 % variables retaled to scenario simulation defined below
 sim_hours = 50; % simulation lasts for 1 hour
-traffic_load_list = 100:5:200; % mean 150 calls/hour
+traffic_load_ratio_list = 1:0.1:2.5; 
+traffic_load_list = zeros(7, 7, length(traffic_load_ratio_list));
+for i = 1:length(traffic_load_ratio_list)
+    traffic_load_list(:,:,i) = traffic_load_map * traffic_load_ratio_list(i);
+end
 blocking_rate_FA_average_list = [];
 
  
 %--------------------------------------------------------------------------
 % FA simulation below
-% 1. Cell Matrix creation
-cell_matrix_FA(7, 7) = CellFA(7, 7, []);
-for i = 1:7
-    for j = 1:7
-        cell_matrix_FA(i, j) = CellFA(i, j, channel_names(channel_group_map(i,j),:));
-    end
-end
-
 % loop over different traffic loads
-for traffic_load = traffic_load_list
+for traffic_load_index = 1:size(traffic_load_list, 3)
+    traffic_load = traffic_load_list(:,:,traffic_load_index);
+    % 1. Cell Matrix creation
+    cell_matrix_FA(7, 7) = CellFA(7, 7, []);
+    for i = 1:7
+        for j = 1:7
+            cell_matrix_FA(i, j) = CellFA(i, j, channel_names(channel_group_map(i,j),:));
+        end
+    end
+
     % 2. global variables
     call_arrivals = (rand(7, 7, 36000*sim_hours) < traffic_load/36000); %timestep is set to 0.1s
     call_arrivals_timesteps = size(call_arrivals, 3);
-    call_ends_FA = zeros(7, 7, 1000); % initialize the call_ends matrix
+    call_ends_FA = zeros(7, 7, call_arrivals_timesteps+1800); % initialize the call_ends matrix
     NB_FA = 0; % blocked calls count
     NC_FA = 0; % call arrivals count
     blocking_rate_list_FA = [0]; % records the blocking rate over time
@@ -77,5 +92,5 @@ for traffic_load = traffic_load_list
     end
     blocking_rate_FA_average = mean(blocking_rate_list_FA(2000:3000));
     blocking_rate_FA_average_list = [blocking_rate_FA_average_list blocking_rate_FA_average];
-    diso(["traffic load:" traffic_load "blocking rate: " ])
+    disp(["traffic load ratio:" traffic_load_ratio_list(traffic_load_index) "blocking rate:" blocking_rate_FA_average])
 end
