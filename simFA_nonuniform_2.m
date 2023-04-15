@@ -1,12 +1,12 @@
 % the matrix that specify the original traffic load for each cell
 traffic_load_map = ...
-    [80 60 140 100 80 160 60; 
-    100 60 120 60 40 100 120; 
-    100 120 40 20 140 40 180;
-    160 20 100 200 60 60 40;
-    80 40 40 80 60 100 160;
-    60 100 140 100 20 160 80;
-    120 60 60 160 120 120 80];
+    [60 100 60 140 120 100 100; 
+    140 140 120 80 80 80 100; 
+    180 140 180 80 200 160 160;
+    80 100 120 60 100 120 80;
+    120 160 80 40 160 80 60;
+    20 60 120 160 140 40 60;
+    120 120 160 140 120 20 60];
 
 % the matrix that specify the channel group No. for each cell
 channel_group_map = ...
@@ -30,7 +30,7 @@ traffic_load_list = zeros(7, 7, length(traffic_load_ratio_list));
 for i = 1:length(traffic_load_ratio_list)
     traffic_load_list(:,:,i) = traffic_load_map * traffic_load_ratio_list(i);
 end
-blocking_rate_FA_average_list_nonuniform_1 = [];
+blocking_rate_FA_average_list_nonuniform_2 = [];
 
  
 %--------------------------------------------------------------------------
@@ -91,6 +91,6 @@ for traffic_load_index = 1:size(traffic_load_list, 3)
         end
     end
     blocking_rate_FA_average = mean(blocking_rate_list_FA(2000:3000));
-    blocking_rate_FA_average_list_nonuniform_1 = [blocking_rate_FA_average_list_nonuniform_1 blocking_rate_FA_average];
+    blocking_rate_FA_average_list_nonuniform_2 = [blocking_rate_FA_average_list_nonuniform_2 blocking_rate_FA_average];
     disp(["traffic load ratio:" traffic_load_ratio_list(traffic_load_index) "blocking rate:" blocking_rate_FA_average])
 end

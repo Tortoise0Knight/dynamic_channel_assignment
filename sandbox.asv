@@ -55,10 +55,9 @@
 
 % 
 % test related to LODA cell
-    LODA_cell = CellLODA(1, 6, 11:20);
+    LODA_cell = CellLODA(3, 5, 11:20);
     disp([LODA_cell.Loc_x, LODA_cell.Loc_y])
-    foo_1_neighbor=LODA_cell.get_tier_n_neighbor_location_array(1);
-    foo_2_neighbor=LODA_cell.get_tier_n_neighbor_location_array(2);
+    LODA_cell.get_tier_n_neighbor_location_array
 % 
 % % test related to BDCL cell
 %     BDCL_cell = CellBDCL(3, 5, 11:20);

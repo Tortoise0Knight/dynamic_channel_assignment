@@ -99,12 +99,12 @@ classdef CellLODA < CellBase
             max_U = 0; 
             X_list = get_X_list(obj, cell_matrix);
             for ci = X_list
-                U_ci = get_U_ci(obj, cell_matrix, ci);
-                if U_ci > max_U
+                U_ci = get_U_ci(obj, cell_matrix, ci)
+                if get_U_ci(obj, cell_matrix, ci) > max_U
                     Cmax_list = [ci];
-                    max_U = U_ci;
-                elseif U_ci == max_U
-                    Cmax_list = [Cmax_list ci];
+                    max_U = get_U_ci(obj, cell_matrix, ci)
+                elseif get_U_ci(obj, cell_matrix, ci) == max_U
+                    
                 end
             end
         end

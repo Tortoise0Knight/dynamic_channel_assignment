@@ -30,7 +30,6 @@ classdef CellFA < CellBase
                 obj.FC = fc;
             end
         end
-        % TODO: complete other operations related to Cell.
         
         function [obj, NB, NC, channel] = call_arrival(obj, NB, NC)
             NC = NC + 1;
