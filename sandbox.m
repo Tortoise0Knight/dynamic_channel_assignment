@@ -85,6 +85,12 @@
 %     call_arrivals_clip=call_arrivals(:,:,1:100);
 %     test1 = call_arrivals(:, :, 1);
 
+%plot(blocking_rate_time_list_LODA, blocking_rate_list_LODA)
+
+foo_list = [1 3 4 6 7 7 15 23];
+foo = 5;
+foo_list = sort([foo_list foo])
+
 
 
 

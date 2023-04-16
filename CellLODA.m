@@ -28,12 +28,18 @@ classdef CellLODA < CellBase
         end
         % TODO: complete other operations related to Cell.
 
-        function call_arrival(obj)
-            % TODO:
+        function [obj, NB, NC, channel] = call_arrival(obj, NB, NC, cell_matrix)
+            NC = NC + 1;
+            channel = obj.get_candidate(cell_matrix);
+            if channel == -1 % an invalid channel indicates block
+                NB = NB + 1;
+            else
+                obj.SC = [obj.SC channel];
+            end
         end
 
-        function call_end(obj)
-            % TODO:
+        function obj = call_end(obj, channel)
+            obj.SC(obj.SC==channel) = [];
         end
 
         % function that returns the location(1st columns are x, 2nd are
@@ -63,15 +69,19 @@ classdef CellLODA < CellBase
         % in the 1-tier and 2-tier neighbors
         function X_list = get_X_list(obj, cell_matrix)
             X_list = 1:70;
+            idx = ismember(X_list, obj.SC);
+            X_list(idx) = [];
             tier_1_neighbor_location_array = obj.get_tier_n_neighbor_location_array(1);
             tier_2_neighbor_location_array = obj.get_tier_n_neighbor_location_array(2);
             for i = 1:size(tier_1_neighbor_location_array, 1)
-                [loc_x, loc_y] = tier_1_neighbor_location_array(i,:);
+                loc_x = tier_1_neighbor_location_array(i,1);
+                loc_y = tier_1_neighbor_location_array(i,2);
                 idx = ismember(X_list, cell_matrix(loc_x, loc_y).SC);
                 X_list(idx) = [];
             end
             for i = 1:size(tier_2_neighbor_location_array, 1)
-                [loc_x, loc_y] = tier_2_neighbor_location_array(i,:);
+                loc_x = tier_2_neighbor_location_array(i,1);
+                loc_y = tier_2_neighbor_location_array(i,2);
                 idx = ismember(X_list, cell_matrix(loc_x, loc_y).SC);
                 X_list(idx) = [];
             end
@@ -84,7 +94,8 @@ classdef CellLODA < CellBase
             U_ci = 0;
             tier_3_neighbor_location_array = obj.get_tier_n_neighbor_location_array(3);
             for i = 1:size(tier_3_neighbor_location_array)
-                [loc_x, loc_y] = tier_3_neighbor_location_array(i,:);
+                loc_x = tier_3_neighbor_location_array(i,1);
+                loc_y = tier_3_neighbor_location_array(i,2);
                 sc = cell_matrix(loc_x, loc_y).SC;
                 if any(sc == ci)
                     U_ci = U_ci+1;
@@ -97,7 +108,7 @@ classdef CellLODA < CellBase
         function Cmax_list = get_Cmax_list(obj, cell_matrix)
             Cmax_list=[];
             max_U = 0; 
-            X_list = get_X_list(obj, cell_matrix);
+            X_list = obj.get_X_list(cell_matrix);
             for ci = X_list
                 U_ci = get_U_ci(obj, cell_matrix, ci);
                 if U_ci > max_U
@@ -108,6 +119,42 @@ classdef CellLODA < CellBase
                 end
             end
         end
+        
+        % function that calculate the cost of using ci
+        function L_ci = get_L_ci(obj, cell_matrix, ci)
+            L_ci=0;
+            tier_4_neighbor_location_array = obj.get_tier_n_neighbor_location_array(4);
+            tier_5_neighbor_location_array = obj.get_tier_n_neighbor_location_array(5);
+            for i = 1:size(tier_4_neighbor_location_array)
+                loc_x = tier_4_neighbor_location_array(i,1);
+                loc_y = tier_4_neighbor_location_array(i,2);
+                sc = cell_matrix(loc_x, loc_y).SC;
+                if any(sc == ci)
+                    L_ci = L_ci+1;
+                end
+            end
+            for i = 1:size(tier_5_neighbor_location_array)
+                loc_x = tier_5_neighbor_location_array(i,1);
+                loc_y = tier_5_neighbor_location_array(i,2);
+                sc = cell_matrix(loc_x, loc_y).SC;
+                if any(sc == ci)
+                    L_ci = L_ci+2;
+                end
+            end
+        end
 
+        % function that find the channel in Cmax with the minimal cost L
+        function candidate = get_candidate(obj, cell_matrix)
+            candidate = -1;
+            L_ci_min = 67; % greater than the theoreticall maximum
+            Cmax_list = obj.get_Cmax_list(cell_matrix);
+            for ci = Cmax_list
+                L_ci = obj.get_L_ci(cell_matrix, ci);
+                if L_ci < L_ci_min
+                    candidate = ci;
+                    L_ci_min = L_ci;
+                end
+            end
+        end
     end
 end
