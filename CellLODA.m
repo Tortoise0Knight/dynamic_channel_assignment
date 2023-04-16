@@ -26,7 +26,6 @@ classdef CellLODA < CellBase
 
             obj@CellBase(super_args{:});
         end
-        % TODO: complete other operations related to Cell.
 
         function [obj, NB, NC, channel] = call_arrival(obj, NB, NC, cell_matrix)
             NC = NC + 1;
