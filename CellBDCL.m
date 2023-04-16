@@ -54,8 +54,16 @@ classdef CellBDCL < CellBase
             end
         end
 
-        function call_end(obj)
-            % TODO:
+        function [obj, cell_matrix] = call_end(obj, channel, cell_matrix)
+            [obj, cell_matrix] = channel_reallocation(obj, channel, cell_matrix);
+            if ismember(obj.SC, channel)
+                obj.SC(obj.SC==channel) = [];
+                obj.FC = sort([obj.FC channel]);
+            else
+                idx = find(obj.BC(:,1)==channel);
+                direction = obj.BC(idx, 2);
+                cell_matrix = obj.release_borrowed_channel(channel, direction, cell_matrix);
+            end
         end
 
 %----------2nd Layer Methods-----------------------------------------------     
@@ -127,6 +135,8 @@ classdef CellBDCL < CellBase
             end
         end
         
+        % function that locks the borrowed channel from neighbor and its 2
+        % cochannel cells
         function cell_matrix = lock_channels(obj, channel, direction, cell_matrix)
             [loc_x, loc_y] = obj.direction_to_coord(direction);
             cell_matrix(loc_x, loc_y).FC(cell_matrix(loc_x, loc_y).FC==channel) = [];

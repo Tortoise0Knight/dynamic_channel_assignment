@@ -87,10 +87,6 @@
 
 %plot(blocking_rate_time_list_LODA, blocking_rate_list_LODA)
 
-foo_list = [1:6]
-
-
-
 
 
 

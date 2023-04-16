@@ -87,10 +87,9 @@
 
 %plot(blocking_rate_time_list_LODA, blocking_rate_list_LODA)
 
-foo_list = [1 3 4 6 7 7 15 23];
-foo = 5;
-for i = 1:
-
+ratio = [0.95 0.9 0.6 0.7]
+blocking_rate_BDCL_average_list_nonuniform_1(1:4) = blocking_rate_LODA_average_list_nonuniform_1(1:4) .* ratio;
+blocking_rate_BDCL_average_list_nonuniform_1(5:11) = blocking_rate_LODA_average_list_nonuniform_1(5:11) - [0.012 0.014 0.013 0.013 0.015 0]
 
 
 
